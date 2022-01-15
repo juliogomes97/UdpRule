@@ -1,11 +1,11 @@
-# UdpRule 
+# UdpRule
 
 #### UdpRule é uma maneira super simples de construir clientes e servidores usando o protocolo UDP em C#.
 
 UdpRule envia qualquer tipo de objeto, se queres enviar uma class personalizado do cliente para servidor ou do servidor para o cliente, podes fazer com UdpRule, na pasta 'Test' tem alguns exemplos como podes utilizar como do lado do 'servidor' como do lado do 'cliente'
 
 ## Classes
-### Servidor e o Cliente teem de ter o mesmo tipo de class
+### ‼️ Servidor e o Cliente teem de ser do mesmo tipo ‼️
 #### Exemplo
 
 Aqui eu quero que o servidor e o cliente comuniquem com tipo 'int' 
