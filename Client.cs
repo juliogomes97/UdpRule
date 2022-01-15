@@ -15,8 +15,7 @@ namespace UdpRule
         
         private Socket socket;
         private EndPoint endPointFrom;
-        private Packet<T> packetSend;
-        private Packet<ClientPacket<T>> packetReceive;
+        private Packet<T> packet;
         public Client()
         {
             this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
@@ -33,8 +32,7 @@ namespace UdpRule
             IPEndPoint iPEndPoint   = new IPEndPoint(IPAddress.Parse(ip), port);
             
             this.endPointFrom   = iPEndPoint;
-            this.packetSend     = new Packet<T>();
-            this.packetReceive  = new Packet<ClientPacket<T>>();
+            this.packet         = new Packet<T>();
 
             this.socket.Connect(this.endPointFrom);
 
@@ -49,9 +47,11 @@ namespace UdpRule
         {
             if(this.socket.Connected)
             {
-                this.packetSend.PacketSerialize(data);
+                this.packet.AddOwner(data);
 
-                this.socket.BeginSend(this.packetSend.Buffer, 0, this.packetSend.Buffer.Length, SocketFlags.None, BeginSendCallback, this.packetSend);
+                this.packet.PacketSerializeClient();
+
+                this.socket.BeginSend(this.packet.Buffer, 0, this.packet.Buffer.Length, SocketFlags.None, BeginSendCallback, this.packet);
             }
             else ServerDisconnectedEvent?.Invoke(this, null);
         }
@@ -81,9 +81,9 @@ namespace UdpRule
             if(this.socket.Connected)
             {
                 this.socket.BeginReceiveFrom(
-                    this.packetSend.Buffer, 0, Packet<ClientPacket<T>>.BufferSize, 
+                    this.packet.Buffer, 0, this.packet.Buffer.Length, 
                     SocketFlags.None, ref endPointFrom, BeginReceiveFromCallback, 
-                    this.packetReceive
+                    new Packet<T>()
                 );
             }
             else ServerDisconnectedEvent?.Invoke(this, null);
@@ -95,17 +95,17 @@ namespace UdpRule
             {
                 try
                 {
-                    Packet<ClientPacket<T>> packet = (Packet<ClientPacket<T>>) iAsyncResult.AsyncState;
+                    Packet<T> packet = (Packet<T>) iAsyncResult.AsyncState;
 
                     int bytes = this.socket.EndReceiveFrom(iAsyncResult, ref endPointFrom);
                     
-                    this.socket.BeginReceiveFrom(packet.Buffer, 0, Packet<ClientPacket<T>>.BufferSize, SocketFlags.None, ref endPointFrom, BeginReceiveFromCallback, packet);
+                    this.socket.BeginReceiveFrom(packet.Buffer, 0, Packet<T>.BufferSize, SocketFlags.None, ref endPointFrom, BeginReceiveFromCallback, packet);
                     
                     string newData = Encoding.ASCII.GetString(packet.Buffer, 0, bytes);
 
                     byte[] buffer = Encoding.ASCII.GetBytes(newData);
 
-                    Packet<ClientPacket<T>> packetReceived = new Packet<ClientPacket<T>>(buffer);
+                    Packet<T> packetReceived = new Packet<T>(buffer);
 
                     DatagramReceivedEvent?.Invoke(this, packetReceived);
                 }

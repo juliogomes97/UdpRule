@@ -9,6 +9,7 @@ namespace UdpRule
     {
         // Events Handler
         public event EventHandler<object> DatagramReceivedEvent;
+        public event EventHandler<object> DatagramSendEvent;
         public event EventHandler<object> OnClientConnectEvent;
         public event EventHandler<object> OnClientDisconectEvent;
         public event EventHandler<SocketException> ExceptionEvent;
@@ -87,13 +88,13 @@ namespace UdpRule
         {                        
             try
             {
-                ClientPacket<T> clientPacket = new ClientPacket<T>();
+                List<T> listCLients = new List<T>();
 
                 foreach(KeyValuePair<IPEndPoint, Packet<T>> clientInfo in this.listClientsInformation)
                 {
                     if(clientInfo.Value.LastTimeComunication() + this.clientOffsetTimeOut > this.GetUnixTimeNow)
                     {
-                        clientPacket.Add(clientInfo.Value.PacketDeserialize());
+                        listCLients.Add(clientInfo.Value.PacketDeserialize());
                     }
                     else if(clientInfo.Value.LastTimeComunication() + this.clientOffsetTimeOutDisconnect < this.GetUnixTimeNow)
                     {
@@ -103,11 +104,15 @@ namespace UdpRule
                     }
                 }
                 
-                Packet<ClientPacket<T>> packet = new Packet<ClientPacket<T>>();
-                                
-                packet.PacketSerialize(clientPacket);
+                Packet<T> packet = new Packet<T>();
+                
+                packet.AddList(listCLients);
+
+                packet.PacketSerialize();
 
                 this.client.Send(packet.Buffer, packet.Buffer.Length, ipEendPoint);
+
+                DatagramSendEvent?.Invoke(this, packet);
             }
             catch(SocketException socketException)
             {

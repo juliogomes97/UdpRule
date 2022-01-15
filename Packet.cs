@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 
@@ -8,6 +10,9 @@ namespace UdpRule
         public byte[] Buffer { get; private set; }
         public const int BufferSize = 8192;
         private long lastTimeComunication;
+        
+        public T client { get; private set; }
+        public List<T> clients { get; private set; }
         public Packet(byte[] buffer = null)
         {            
             if(buffer == null)
@@ -17,17 +22,36 @@ namespace UdpRule
             else this.Buffer = buffer;
             
             this.lastTimeComunication = 0;
-        }
 
-        public void PacketSerialize(T objectClass)
+            this.clients = new List<T>();
+        }
+        public void AddOwner(T client)
         {
-            string text = JsonSerializer.Serialize<T>(objectClass);
+            this.client = client;
+        }
+        public void AddList(List<T> clients)
+        {
+            this.clients = clients;
+        }
+        public void PacketSerializeClient()
+        {
+            string text = JsonSerializer.Serialize<T>(this.client);
+            
+            this.Buffer = Encoding.ASCII.GetBytes(text);
+        }
+        public void PacketSerialize()
+        {
+            string text = JsonSerializer.Serialize<List<T>>(this.clients);
             
             this.Buffer = Encoding.ASCII.GetBytes(text);
         }
         public T PacketDeserialize()
         {
             return JsonSerializer.Deserialize<T>(this.Buffer);
+        }
+        public List<T> PacketDeserializeList()
+        {
+            return JsonSerializer.Deserialize<List<T>>(this.Buffer);
         }
         public void UpdateTimeComunication(long serverTimeUnix)
         {

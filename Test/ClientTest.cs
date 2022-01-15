@@ -1,7 +1,7 @@
 using System;
 using System.Net.Sockets;
 using System.Text;
-
+using System.Collections.Generic;
 using UdpRule.Test.Objects;
 
 namespace UdpRule.Test
@@ -47,12 +47,19 @@ namespace UdpRule.Test
 
         private void OnClientDatagramReceivedEvent(object sender, object data)
         {
-            Packet<ClientPacket<GameObject>> packet = (Packet<ClientPacket<GameObject>>) data;
+            Packet<GameObject> packet = (Packet<GameObject>) data;
 
-            string dataEncodind = Encoding.ASCII.GetString(packet.Buffer);
+            string dataEncodind = Encoding.ASCII.GetString(packet.Buffer, 0 , packet.Buffer.Length);
 
             Console.WriteLine($"- Received from server:");
-            Console.WriteLine($"- Data: {dataEncodind}");
+            Console.WriteLine($"- ({packet.Buffer.Length} Bytes) Data: {dataEncodind}");
+
+            List<GameObject> listClients = packet.PacketDeserializeList();
+
+            foreach(GameObject c in listClients)
+            {
+                Console.WriteLine(c.Player.Name);
+            }
         }
         private void OnClientDatagramSendEvent(object sender, object data)
         {

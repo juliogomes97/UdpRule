@@ -18,10 +18,11 @@ namespace UdpRule.Test
             Server<GameObject> server = new Server<GameObject>(27000);
 
             // Handlers Events
-            server.DatagramReceivedEvent += OnServerDatagramReceivedEvent;
-            server.OnClientConnectEvent += OnServerOnClientConnectEvent;
-            server.OnClientDisconectEvent += OnServerOnClientDisconectEvent;
-            server.ExceptionEvent += OnServerExceptionEvent;
+            server.DatagramReceivedEvent    += OnServerDatagramReceivedEvent;
+            server.DatagramSendEvent        += OnServerDatagramSendEvent;
+            server.OnClientConnectEvent     += OnServerOnClientConnectEvent;
+            server.OnClientDisconectEvent   += OnServerOnClientDisconectEvent;
+            server.ExceptionEvent           += OnServerExceptionEvent;
 
             Console.WriteLine("Server sarted!");
 
@@ -36,7 +37,16 @@ namespace UdpRule.Test
 
             Console.WriteLine($"- Received from Address({datagram.IpEndPoint.Address}) Port({datagram.IpEndPoint.Port})");
             Console.WriteLine($"Data: {dataEncodind}");
-        }        
+        } 
+        private void OnServerDatagramSendEvent(object sender, object data)
+        {      
+            Packet<GameObject> packet = (Packet<GameObject>) data;
+
+            string dataEncodind = Encoding.ASCII.GetString(packet.Buffer);
+
+            Console.WriteLine($"- Send to Client");
+            Console.WriteLine($"Data: {dataEncodind}");
+        }       
         private void OnServerExceptionEvent(object sender, SocketException socketException)
         {
             Console.WriteLine("Server Socket Exception:");
