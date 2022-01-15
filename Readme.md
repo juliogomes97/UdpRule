@@ -34,7 +34,7 @@ Client.cs
 ``` csharp
 DatagramSendEvent;        // Quando envia um dado para o servidor
 DatagramReceivedEvent;    // Quando recebe algum dado do servidor
-ServerDisconnectedEvent;  // Quando o cliente enviar algum dado para o servidor, mas o servidor esta offline
+ServerDisconnectedEvent;  // Quando o cliente envia algum dado para o servidor mas o servidor esta offline
 ExceptionEvent;           // Qualquer erro que pode ocorrer durante o seu processo
 ```
 
