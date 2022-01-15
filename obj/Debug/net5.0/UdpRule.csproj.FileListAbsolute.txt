@@ -1,0 +1,16 @@
+C:\Users\Julio\Dropbox\Desenvolvimento C#\UdpRule\bin\Debug\net5.0\UdpRule.exe
+C:\Users\Julio\Dropbox\Desenvolvimento C#\UdpRule\bin\Debug\net5.0\UdpRule.deps.json
+C:\Users\Julio\Dropbox\Desenvolvimento C#\UdpRule\bin\Debug\net5.0\UdpRule.runtimeconfig.json
+C:\Users\Julio\Dropbox\Desenvolvimento C#\UdpRule\bin\Debug\net5.0\UdpRule.runtimeconfig.dev.json
+C:\Users\Julio\Dropbox\Desenvolvimento C#\UdpRule\bin\Debug\net5.0\UdpRule.dll
+C:\Users\Julio\Dropbox\Desenvolvimento C#\UdpRule\bin\Debug\net5.0\ref\UdpRule.dll
+C:\Users\Julio\Dropbox\Desenvolvimento C#\UdpRule\bin\Debug\net5.0\UdpRule.pdb
+C:\Users\Julio\Dropbox\Desenvolvimento C#\UdpRule\obj\Debug\net5.0\UdpRule.csproj.AssemblyReference.cache
+C:\Users\Julio\Dropbox\Desenvolvimento C#\UdpRule\obj\Debug\net5.0\UdpRule.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Julio\Dropbox\Desenvolvimento C#\UdpRule\obj\Debug\net5.0\UdpRule.AssemblyInfoInputs.cache
+C:\Users\Julio\Dropbox\Desenvolvimento C#\UdpRule\obj\Debug\net5.0\UdpRule.AssemblyInfo.cs
+C:\Users\Julio\Dropbox\Desenvolvimento C#\UdpRule\obj\Debug\net5.0\UdpRule.csproj.CoreCompileInputs.cache
+C:\Users\Julio\Dropbox\Desenvolvimento C#\UdpRule\obj\Debug\net5.0\UdpRule.dll
+C:\Users\Julio\Dropbox\Desenvolvimento C#\UdpRule\obj\Debug\net5.0\ref\UdpRule.dll
+C:\Users\Julio\Dropbox\Desenvolvimento C#\UdpRule\obj\Debug\net5.0\UdpRule.pdb
+C:\Users\Julio\Dropbox\Desenvolvimento C#\UdpRule\obj\Debug\net5.0\UdpRule.genruntimeconfig.cache

@@ -1,0 +1,5 @@
+C:\Users\Julio\Dropbox\Desenvolvimento C#\UdpRule\bin\Debug\net5.0\publish\UdpRule.exe
+C:\Users\Julio\Dropbox\Desenvolvimento C#\UdpRule\bin\Debug\net5.0\publish\UdpRule.dll
+C:\Users\Julio\Dropbox\Desenvolvimento C#\UdpRule\bin\Debug\net5.0\publish\UdpRule.deps.json
+C:\Users\Julio\Dropbox\Desenvolvimento C#\UdpRule\bin\Debug\net5.0\publish\UdpRule.runtimeconfig.json
+C:\Users\Julio\Dropbox\Desenvolvimento C#\UdpRule\bin\Debug\net5.0\publish\UdpRule.pdb
