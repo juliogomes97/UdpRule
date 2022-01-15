@@ -12,6 +12,7 @@ namespace UdpRule
         public event EventHandler<object> DatagramReceivedEvent;
         public event EventHandler ServerDisconnectedEvent;
         public event EventHandler<SocketException> ExceptionEvent;
+        
         private Socket socket;
         private EndPoint endPointFrom;
         private Packet<T> packetSend;
