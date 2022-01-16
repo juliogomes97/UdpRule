@@ -33,22 +33,31 @@ namespace UdpRule.Test
             client.ServerDownEvent      += OnServerDownEventEvent;
             client.ExceptionEvent       += OnExceptionEvent;
 
-            client.Connect("95.93.48.218", 27000);
+            client.Connect("127.0.0.1", 27000);
             client.SendData(gameObject);
 
             ConsoleDebug.WriteLine("Press (Enter) to start send");
 
             Random r = new Random();
             
+            long lastTime = 0;
+            long currentTime;
+
             while(clientConnectedToServer) 
             {
-                Console.ReadKey();
+                // One call per second                
+                currentTime = DateTime.Now.Ticks;
+                
+                if(currentTime > lastTime + 10000000)
+                {
+                    Vector3 randomPosition = new Vector3(r.Next(1, 9999) , r.Next(1, 9999), r.Next(1, 9999));
 
-                Vector3 randomPosition = new Vector3(r.Next(1, 9999) , r.Next(1, 9999), r.Next(1, 9999));
+                    gameObject.SetPositon(randomPosition);
 
-                gameObject.SetPositon(randomPosition);
+                    client.SendData(gameObject);
 
-                client.SendData(gameObject);
+                    lastTime = currentTime;
+                }
             }
         }
 
