@@ -29,18 +29,28 @@ Client<int> client = new Client<int>;
 
 Server.cs
 ``` csharp
-DatagramReceivedEvent;    // Quando o servidor recebe alguma mensagem do cliente
-OnClientConnectEvent;     // Quando um cliente e adicionado a lista de clientes do servidor
-OnClientDisconectEvent;   // Quando um cliente demora a comunicar com o servidor
-ExceptionEvent;           // Qualquer erro que pode ocorrer durante o seu processo
+// Quando o servidor recebe alguma mensagem do cliente
+EventHandler<object>    DataReceivedEvent;
+// Quando recebe algum dado do cliente
+EventHandler<object>    DataSendEvent;
+// Quando um cliente e adicionado a lista de clientes do servidor
+EventHandler<object>    ClientConnectEvent;
+// Quando um cliente demora a comunicar com o servidor
+EventHandler<object>    ClientDisconectEvent;
+// Qualquer erro que pode ocorrer durante o seu processo
+EventHandler<Exception> ExceptionEvent;           
 ```
 
 Client.cs
 ``` csharp
-DatagramSendEvent;        // Quando envia um dado para o servidor
-DatagramReceivedEvent;    // Quando recebe algum dado do servidor
-ServerDisconnectedEvent;  // Quando o cliente envia algum dado para o servidor mas o servidor esta offline
-ExceptionEvent;           // Qualquer erro que pode ocorrer durante o seu processo
+// Quando envia um dado para o servidor
+EventHandler<object>    DataReceivedEvent; 
+// Quando recebe algum dado do servidor
+EventHandler<object>    DataSendEvent;
+// Quando o cliente envia algum dado para o servidor mas o servidor esta offline
+EventHandler            ServerDownEvent;
+// Qualquer erro que pode ocorrer durante o seu processo
+EventHandler<Exception> ExceptionEvent;
 ```
 
 ## Construtores
