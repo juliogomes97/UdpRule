@@ -47,10 +47,18 @@ namespace UdpRule
         }
         public T PacketDeserialize()
         {
+            // If packet is empty
+            if(this.Buffer[0] == 0x00)
+                return this.client;
+
             return JsonSerializer.Deserialize<T>(this.Buffer);
         }
         public List<T> PacketDeserializeList()
         {
+            // If packet is empty
+            if(this.Buffer[0] == 0x00)
+                return this.clients;
+                
             return JsonSerializer.Deserialize<List<T>>(this.Buffer);
         }
         public void UpdateTimeComunication(long serverTimeUnix)

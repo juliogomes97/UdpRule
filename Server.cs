@@ -17,7 +17,6 @@ namespace UdpRule
         private UdpClient client;
         private IPEndPoint ipEendPoint;
         private Dictionary<IPEndPoint, Packet<T>> listClientsInformation;
-        private int clientOffsetTimeOut = 30000000; // 3 Seconds
         private int clientOffsetTimeOutDisconnect = 100000000; // 10 Seconds
         public Server(int port)
         {
@@ -92,15 +91,15 @@ namespace UdpRule
 
                 foreach(KeyValuePair<IPEndPoint, Packet<T>> clientInfo in this.listClientsInformation)
                 {
-                    if(clientInfo.Value.LastTimeComunication() + this.clientOffsetTimeOut > this.GetUnixTimeNow)
-                    {
-                        listCLients.Add(clientInfo.Value.PacketDeserialize());
-                    }
-                    else if(clientInfo.Value.LastTimeComunication() + this.clientOffsetTimeOutDisconnect < this.GetUnixTimeNow)
+                    if(clientInfo.Value.LastTimeComunication() + this.clientOffsetTimeOutDisconnect < this.GetUnixTimeNow)
                     {
                         this.listClientsInformation.Remove(clientInfo.Key);
 
                         OnClientDisconectEvent?.Invoke(this, clientInfo.Value);
+                    }
+                    else
+                    {
+                        listCLients.Add(clientInfo.Value.PacketDeserialize());
                     }
                 }
                 

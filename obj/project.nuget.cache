@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "u8XaO35LnT00NsuofhPKllWx3B8w+FctSd5Yn7lonlSYOBfnrIw6iBLe8JSX2pyCt1X8htaXKLOrvW7+5b5JmQ==",
+  "dgSpecHash": "eAqJcHWj0r5mZi15QBN5Skcbz33RdqTBWTfPPlOr36gui30sU31oAzdKykdn3UfWtiYIk0o80r6DaVo4As1ljA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\cbaut\\Documents\\UdpRule\\UdpRule\\UdpRule.csproj",
+  "projectFilePath": "/home/julio/Dotnet Projects/UdpRule/UdpRule.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

@@ -9,6 +9,7 @@ namespace UdpRule.Test
     class ClientTest
     {
         static bool clientConnectedToServer = true;
+        static bool start = false;
         public ClientTest()
         {            
             StartClient();
@@ -34,11 +35,17 @@ namespace UdpRule.Test
 
             client.Connect("127.0.0.1", 27000);
 
-            Console.WriteLine("Press (Enter) to start send");
+            ConsoleDebug.WriteLine("Press (Enter) to start send");
+
+            Random r = new Random();
 
             do 
             {
                 Console.ReadKey();
+
+                Vector3 randomPosition = new Vector3(r.Next(1, 9999) , r.Next(1, 9999), r.Next(1, 9999));
+
+                gameObject.SetPositon(randomPosition);
 
                 client.SendData(gameObject);
             } 
@@ -49,16 +56,16 @@ namespace UdpRule.Test
         {
             Packet<GameObject> packet = (Packet<GameObject>) data;
 
-            string dataEncodind = Encoding.ASCII.GetString(packet.Buffer, 0 , packet.Buffer.Length);
+            string dataEncodind = Encoding.Default.GetString(packet.Buffer, 0 , packet.Buffer.Length);
 
-            Console.WriteLine($"- Received from server:");
-            Console.WriteLine($"- ({packet.Buffer.Length} Bytes) Data: {dataEncodind}");
+            ConsoleDebug.WriteLine($"- Received from server:");
+            ConsoleDebug.WriteLine($"- Data: {dataEncodind}", ConsoleDebug.DebugColor.Yellow);
 
             List<GameObject> listClients = packet.PacketDeserializeList();
 
-            foreach(GameObject c in listClients)
+            foreach(GameObject gameObject in listClients)
             {
-                Console.WriteLine(c.Player.Name);
+                ConsoleDebug.WriteLine($"{gameObject.Player.Name} have position: X({gameObject.Position.X}) Y({gameObject.Position.Y}) Z({gameObject.Position.Z})", ConsoleDebug.DebugColor.Cyan);
             }
         }
         private void OnClientDatagramSendEvent(object sender, object data)
@@ -67,18 +74,18 @@ namespace UdpRule.Test
 
             string dataEncodind = Encoding.ASCII.GetString(packet.Buffer);
 
-            Console.WriteLine($"Sent data to server.");
+            ConsoleDebug.WriteLine($"Sent data to server.", ConsoleDebug.DebugColor.Cyan);
         }
         private void OnClientServerDisconnectEvent(object sender, EventArgs e)
         {
             clientConnectedToServer = false;
 
-            Console.WriteLine("Server is down!");
+            ConsoleDebug.WriteLine("Server is down!", ConsoleDebug.DebugColor.Red);
         }
         private void OnClientExceptionEvent(object sender, SocketException socketException)
         {
-            Console.WriteLine($"Server Socket Exception({socketException.ErrorCode}):");
-            Console.WriteLine(socketException.Message);
+            ConsoleDebug.WriteLine($"Server Socket Exception({socketException.ErrorCode}):");
+            ConsoleDebug.WriteLine(socketException.Message, ConsoleDebug.DebugColor.Red);
         }
     }
 }

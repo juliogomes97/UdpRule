@@ -16,6 +16,7 @@ namespace UdpRule
         private Socket socket;
         private EndPoint endPointFrom;
         private Packet<T> packet;
+        
         public Client()
         {
             this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
@@ -81,7 +82,7 @@ namespace UdpRule
             if(this.socket.Connected)
             {
                 this.socket.BeginReceiveFrom(
-                    this.packet.Buffer, 0, this.packet.Buffer.Length, 
+                    this.packet.Buffer, 0, Packet<T>.BufferSize, 
                     SocketFlags.None, ref endPointFrom, BeginReceiveFromCallback, 
                     new Packet<T>()
                 );
@@ -101,9 +102,9 @@ namespace UdpRule
                     
                     this.socket.BeginReceiveFrom(packet.Buffer, 0, Packet<T>.BufferSize, SocketFlags.None, ref endPointFrom, BeginReceiveFromCallback, packet);
                     
-                    string newData = Encoding.ASCII.GetString(packet.Buffer, 0, bytes);
+                    byte[] buffer = packet.Buffer;
 
-                    byte[] buffer = Encoding.ASCII.GetBytes(newData);
+                    Array.Resize(ref buffer, bytes);
 
                     Packet<T> packetReceived = new Packet<T>(buffer);
 

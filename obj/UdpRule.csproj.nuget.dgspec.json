@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\cbaut\\Documents\\UdpRule\\UdpRule\\UdpRule.csproj": {}
+    "/home/julio/Dotnet Projects/UdpRule/UdpRule.csproj": {}
   },
   "projects": {
-    "C:\\Users\\cbaut\\Documents\\UdpRule\\UdpRule\\UdpRule.csproj": {
+    "/home/julio/Dotnet Projects/UdpRule/UdpRule.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cbaut\\Documents\\UdpRule\\UdpRule\\UdpRule.csproj",
+        "projectUniqueName": "/home/julio/Dotnet Projects/UdpRule/UdpRule.csproj",
         "projectName": "UdpRule",
-        "projectPath": "C:\\Users\\cbaut\\Documents\\UdpRule\\UdpRule\\UdpRule.csproj",
-        "packagesPath": "C:\\Users\\cbaut\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cbaut\\Documents\\UdpRule\\UdpRule\\obj\\",
+        "projectPath": "/home/julio/Dotnet Projects/UdpRule/UdpRule.csproj",
+        "packagesPath": "/home/julio/.nuget/packages/",
+        "outputPath": "/home/julio/Dotnet Projects/UdpRule/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\cbaut\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/julio/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -52,7 +52,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.101/RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -11,5 +11,10 @@ namespace UdpRule.Test.Objects
             this.Player     = player;
             this.Position   = position;
         }
+
+        public void SetPositon(Vector3 positon)
+        {
+            this.Position = positon;
+        }
     }
 }
