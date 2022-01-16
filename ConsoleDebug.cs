@@ -17,9 +17,7 @@ namespace UdpRule
         {
             Console.ForegroundColor = ConsoleColor.White;
 
-            string date = DateTime.Now.ToString("'yyy'-'MM'-'dd' 'HH':'mm':'ss'");
-
-            Console.Write($"[{date}]\t");
+            Console.Write(DateTime.Now.ToString("yyy-MM-dd HH:mm:ss "));
 
             ConsoleColor color;
 

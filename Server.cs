@@ -8,11 +8,11 @@ namespace UdpRule
     class Server<T>
     {
         // Events Handler
-        public event EventHandler<object> DatagramReceivedEvent;
-        public event EventHandler<object> DatagramSendEvent;
-        public event EventHandler<object> OnClientConnectEvent;
-        public event EventHandler<object> OnClientDisconectEvent;
-        public event EventHandler<SocketException> ExceptionEvent;
+        public event EventHandler<object> DataReceivedEvent;
+        public event EventHandler<object> DataSendEvent;
+        public event EventHandler<object> ClientConnectEvent;
+        public event EventHandler<object> ClientDisconectEvent;
+        public event EventHandler<Exception> ExceptionEvent;
 
         private UdpClient client;
         private IPEndPoint ipEendPoint;
@@ -44,15 +44,15 @@ namespace UdpRule
 
                         this.HandlerData(dataReceived);
                     }
-                    catch(SocketException socketException)
+                    catch(Exception exception)
                     {
-                        ExceptionEvent?.Invoke(this, socketException);
+                        ExceptionEvent?.Invoke(this, exception);
                     }
                 }
             }
-            catch(SocketException socketException)
+            catch(Exception exception)
             {
-                ExceptionEvent?.Invoke(this, socketException);
+                ExceptionEvent?.Invoke(this, exception);
             }
             finally
             {
@@ -67,13 +67,13 @@ namespace UdpRule
 
             packet.UpdateTimeComunication(this.GetUnixTimeNow);
 
-            DatagramReceivedEvent?.Invoke(this, new Datagram<T>(this.ipEendPoint, packet));
+            DataReceivedEvent?.Invoke(this, new Datagram<T>(this.ipEendPoint, packet));
 
             if(!this.listClientsInformation.ContainsKey(this.ipEendPoint))
             {
                 this.listClientsInformation.Add(this.ipEendPoint, packet);
                 
-                OnClientConnectEvent?.Invoke(this, packet.PacketDeserialize());
+                ClientConnectEvent?.Invoke(this, packet.PacketDeserialize());
             }
             else
             {
@@ -95,7 +95,7 @@ namespace UdpRule
                     {
                         this.listClientsInformation.Remove(clientInfo.Key);
 
-                        OnClientDisconectEvent?.Invoke(this, clientInfo.Value);
+                        ClientDisconectEvent?.Invoke(this, clientInfo.Value);
                     }
                     else
                     {
@@ -111,11 +111,11 @@ namespace UdpRule
 
                 this.client.Send(packet.Buffer, packet.Buffer.Length, ipEendPoint);
 
-                DatagramSendEvent?.Invoke(this, packet);
+                DataSendEvent?.Invoke(this, packet);
             }
-            catch(SocketException socketException)
+            catch(Exception exception)
             {
-                ExceptionEvent?.Invoke(this, socketException);
+                ExceptionEvent?.Invoke(this, exception);
             }
         }
 

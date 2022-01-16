@@ -28,12 +28,13 @@ namespace UdpRule.Test
             Client<GameObject> client = new Client<GameObject>();
             
             // Handlers Events
-            client.DatagramReceivedEvent += OnClientDatagramReceivedEvent;
-            client.DatagramSendEvent += OnClientDatagramSendEvent;
-            client.ServerDisconnectedEvent += OnClientServerDisconnectEvent;
-            client.ExceptionEvent += OnClientExceptionEvent;
+            client.DataReceivedEvent    += OnDataReceivedEventEvent;
+            client.DataSendEvent        += OnDataSendEventEvent;
+            client.ServerDownEvent      += OnServerDownEventEvent;
+            client.ExceptionEvent       += OnExceptionEvent;
 
             client.Connect("127.0.0.1", 27000);
+            client.SendData(gameObject);
 
             ConsoleDebug.WriteLine("Press (Enter) to start send");
 
@@ -52,7 +53,7 @@ namespace UdpRule.Test
             while(clientConnectedToServer);
         }
 
-        private void OnClientDatagramReceivedEvent(object sender, object data)
+        private void OnDataReceivedEventEvent(object sender, object data)
         {
             Packet<GameObject> packet = (Packet<GameObject>) data;
 
@@ -68,24 +69,23 @@ namespace UdpRule.Test
                 ConsoleDebug.WriteLine($"{gameObject.Player.Name} have position: X({gameObject.Position.X}) Y({gameObject.Position.Y}) Z({gameObject.Position.Z})", ConsoleDebug.DebugColor.Cyan);
             }
         }
-        private void OnClientDatagramSendEvent(object sender, object data)
+        private void OnDataSendEventEvent(object sender, object data)
         {
             Packet<GameObject> packet = (Packet<GameObject>) data;
 
             string dataEncodind = Encoding.ASCII.GetString(packet.Buffer);
 
-            ConsoleDebug.WriteLine($"Sent data to server.", ConsoleDebug.DebugColor.Cyan);
+            ConsoleDebug.WriteLine($"- Sent data to server.", ConsoleDebug.DebugColor.Cyan);
         }
-        private void OnClientServerDisconnectEvent(object sender, EventArgs e)
+        private void OnServerDownEventEvent(object sender, EventArgs e)
         {
             clientConnectedToServer = false;
 
-            ConsoleDebug.WriteLine("Server is down!", ConsoleDebug.DebugColor.Red);
+            ConsoleDebug.WriteLine("- Server is down!", ConsoleDebug.DebugColor.Red);
         }
-        private void OnClientExceptionEvent(object sender, SocketException socketException)
+        private void OnExceptionEvent(object sender, Exception exception)
         {
-            ConsoleDebug.WriteLine($"Server Socket Exception({socketException.ErrorCode}):");
-            ConsoleDebug.WriteLine(socketException.Message, ConsoleDebug.DebugColor.Red);
+            ConsoleDebug.WriteLine($"- Exception: {exception.Message}", ConsoleDebug.DebugColor.Red);
         }
     }
 }

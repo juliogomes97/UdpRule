@@ -18,18 +18,18 @@ namespace UdpRule.Test
             Server<GameObject> server = new Server<GameObject>(27000);
 
             // Handlers Events
-            server.DatagramReceivedEvent    += OnServerDatagramReceivedEvent;
-            server.DatagramSendEvent        += OnServerDatagramSendEvent;
-            server.OnClientConnectEvent     += OnServerOnClientConnectEvent;
-            server.OnClientDisconectEvent   += OnServerOnClientDisconectEvent;
-            server.ExceptionEvent           += OnServerExceptionEvent;
+            server.DataReceivedEvent    += OnDataReceivedEvent;
+            server.DataSendEvent        += OnDataSendEvent;
+            server.ClientConnectEvent   += OnClientConnectEvent;
+            server.ClientDisconectEvent += OnClientDisconectEvent;
+            server.ExceptionEvent       += OnExceptionEvent;
 
-            ConsoleDebug.WriteLine("Server sarted!");
+            ConsoleDebug.WriteLine("- Server sarted!", ConsoleDebug.DebugColor.Green);
 
             server.Start();
         }
        
-        private void OnServerDatagramReceivedEvent(object sender, object data)
+        private void OnDataReceivedEvent(object sender, object data)
         {      
             Datagram<GameObject> datagram = (Datagram<GameObject>) data;
 
@@ -38,7 +38,7 @@ namespace UdpRule.Test
             ConsoleDebug.WriteLine($"- Received from Address({datagram.IpEndPoint.Address}) Port({datagram.IpEndPoint.Port})");
             ConsoleDebug.WriteLine($"- Data: {dataEncodind}", ConsoleDebug.DebugColor.Yellow);
         } 
-        private void OnServerDatagramSendEvent(object sender, object data)
+        private void OnDataSendEvent(object sender, object data)
         {      
             Packet<GameObject> packet = (Packet<GameObject>) data;
 
@@ -46,23 +46,23 @@ namespace UdpRule.Test
 
             ConsoleDebug.WriteLine($"- Send to Client");
             ConsoleDebug.WriteLine($"- Data: {dataEncodind}", ConsoleDebug.DebugColor.Cyan);
-        }       
-        private void OnServerExceptionEvent(object sender, SocketException socketException)
-        {
-            ConsoleDebug.WriteLine("Server Socket Exception:");
-            ConsoleDebug.WriteLine(socketException.Message, ConsoleDebug.DebugColor.Red);
-        }
-        private void OnServerOnClientConnectEvent(object sender, object data)
+        }   
+        private void OnClientConnectEvent(object sender, object data)
         {
             GameObject gameObject = (GameObject) data;
 
-            ConsoleDebug.WriteLine($"{gameObject.Player.Name} is Added!", ConsoleDebug.DebugColor.Yellow);
+            ConsoleDebug.WriteLine($"{gameObject.Player.Name} is Added!", ConsoleDebug.DebugColor.Green);
         }
-        private void OnServerOnClientDisconectEvent(object sender, object data)
+        private void OnClientDisconectEvent(object sender, object data)
         {
             Packet<GameObject> gameObject = (Packet<GameObject>) data;
 
             ConsoleDebug.WriteLine($"{gameObject.PacketDeserialize().Player.Name} as disconected!", ConsoleDebug.DebugColor.Red);
+        }
+            
+        private void OnExceptionEvent(object sender, Exception exception)
+        {
+            ConsoleDebug.WriteLine($"- Exception: {exception.Message}", ConsoleDebug.DebugColor.Red);
         }
     }
 }

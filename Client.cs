@@ -8,10 +8,10 @@ namespace UdpRule
     class Client<T>
     {
         // Events Handler
-        public event EventHandler<object> DatagramSendEvent;
-        public event EventHandler<object> DatagramReceivedEvent;
-        public event EventHandler ServerDisconnectedEvent;
-        public event EventHandler<SocketException> ExceptionEvent;
+        public event EventHandler<object> DataReceivedEvent;
+        public event EventHandler<object> DataSendEvent;
+        public event EventHandler ServerDownEvent;
+        public event EventHandler<Exception> ExceptionEvent;
         
         private Socket socket;
         private EndPoint endPointFrom;
@@ -41,20 +41,27 @@ namespace UdpRule
             {
                 this.Receive();
             }
-            else ServerDisconnectedEvent?.Invoke(this, null);
+            else ServerDownEvent?.Invoke(this, null);
         }
 
         public void SendData(T data)
         {
             if(this.socket.Connected)
             {
-                this.packet.AddOwner(data);
+                try
+                {
+                    this.packet.AddOwner(data);
 
-                this.packet.PacketSerializeClient();
+                    this.packet.PacketSerializeClient();
 
-                this.socket.BeginSend(this.packet.Buffer, 0, this.packet.Buffer.Length, SocketFlags.None, BeginSendCallback, this.packet);
+                    this.socket.BeginSend(this.packet.Buffer, 0, this.packet.Buffer.Length, SocketFlags.None, BeginSendCallback, this.packet);
+                }
+                catch(Exception exception)
+                {
+                    ExceptionEvent?.Invoke(this, exception);
+                }
             }
-            else ServerDisconnectedEvent?.Invoke(this, null);
+            else ServerDownEvent?.Invoke(this, null);
         }
 
         private void BeginSendCallback(IAsyncResult iAsyncResult)
@@ -67,14 +74,14 @@ namespace UdpRule
 
                     int bytes = this.socket.EndSend(iAsyncResult);
             
-                    DatagramSendEvent?.Invoke(this, packet);
+                    DataSendEvent?.Invoke(this, packet);
                 }
-                catch(SocketException socketException)
+                catch(Exception exception)
                 {
-                    ExceptionEvent?.Invoke(this, socketException);
+                    ExceptionEvent?.Invoke(this, exception);
                 }
             }
-            else ServerDisconnectedEvent?.Invoke(this, null);
+            else ServerDownEvent?.Invoke(this, null);
         }
 
         private void Receive()
@@ -87,7 +94,7 @@ namespace UdpRule
                     new Packet<T>()
                 );
             }
-            else ServerDisconnectedEvent?.Invoke(this, null);
+            else ServerDownEvent?.Invoke(this, null);
         }
 
         private void BeginReceiveFromCallback(IAsyncResult iAsyncResult)
@@ -108,14 +115,14 @@ namespace UdpRule
 
                     Packet<T> packetReceived = new Packet<T>(buffer);
 
-                    DatagramReceivedEvent?.Invoke(this, packetReceived);
+                    DataReceivedEvent?.Invoke(this, packetReceived);
                 }
-                catch(SocketException socketException)
+                catch(Exception exception)
                 {
-                    ExceptionEvent?.Invoke(this, socketException);
+                    ExceptionEvent?.Invoke(this, exception);
                 }
             }
-            else ServerDisconnectedEvent?.Invoke(this, null);
+            else ServerDownEvent?.Invoke(this, null);
         }
     }
 }
