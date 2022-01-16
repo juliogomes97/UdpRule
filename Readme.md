@@ -4,6 +4,11 @@
 
 UdpRule envia qualquer tipo de objeto, se queres enviar uma class personalizado do cliente para servidor ou do servidor para o cliente, podes fazer com UdpRule, na pasta 'Test' tem alguns exemplos como podes utilizar como do lado do 'servidor' como do lado do 'cliente'
 
+## Requerimentos
+
+### .NET 6.0
+
+
 ## Classes
 ### ‼️ Servidor e o Cliente teem de ser do mesmo tipo ‼️
 #### Exemplo
@@ -38,7 +43,7 @@ ServerDisconnectedEvent;  // Quando o cliente envia algum dado para o servidor m
 ExceptionEvent;           // Qualquer erro que pode ocorrer durante o seu processo
 ```
 
-## Constructors
+## Construtores
 
 Server.cs
 ``` csharp
@@ -51,7 +56,7 @@ Client.cs
 new Client<object>();
 ```
 
-# Properties
+## Propriedades
 
 Server.cs
 ``` csharp

@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace UdpRule
 {
-    class Packet<T>
+    public class Packet<T>
     {
         public byte[] Buffer { get; private set; }
         public const int BufferSize = 8192;

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace UdpRule
 {
-    class Server<T>
+    public class Server<T>
     {
         // Events Handler
         public event EventHandler<object> DataReceivedEvent;

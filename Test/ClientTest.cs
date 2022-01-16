@@ -33,14 +33,14 @@ namespace UdpRule.Test
             client.ServerDownEvent      += OnServerDownEventEvent;
             client.ExceptionEvent       += OnExceptionEvent;
 
-            client.Connect("127.0.0.1", 27000);
+            client.Connect("95.93.48.218", 27000);
             client.SendData(gameObject);
 
             ConsoleDebug.WriteLine("Press (Enter) to start send");
 
             Random r = new Random();
-
-            do 
+            
+            while(clientConnectedToServer) 
             {
                 Console.ReadKey();
 
@@ -49,8 +49,7 @@ namespace UdpRule.Test
                 gameObject.SetPositon(randomPosition);
 
                 client.SendData(gameObject);
-            } 
-            while(clientConnectedToServer);
+            }
         }
 
         private void OnDataReceivedEventEvent(object sender, object data)

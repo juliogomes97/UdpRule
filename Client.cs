@@ -5,7 +5,7 @@ using System.Text;
 
 namespace UdpRule
 {
-    class Client<T>
+    public class Client<T>
     {
         // Events Handler
         public event EventHandler<object> DataReceivedEvent;
@@ -32,8 +32,8 @@ namespace UdpRule
         {
             IPEndPoint iPEndPoint   = new IPEndPoint(IPAddress.Parse(ip), port);
             
-            this.endPointFrom   = iPEndPoint;
-            this.packet         = new Packet<T>();
+            this.endPointFrom       = iPEndPoint;
+            this.packet             = new Packet<T>();
 
             this.socket.Connect(this.endPointFrom);
 
@@ -41,7 +41,13 @@ namespace UdpRule
             {
                 this.Receive();
             }
-            else ServerDownEvent?.Invoke(this, null);
+            else
+            {
+                this.socket.Close();
+                this.socket.Dispose();
+                
+                ServerDownEvent?.Invoke(this, null);
+            }
         }
 
         public void SendData(T data)

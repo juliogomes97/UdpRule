@@ -2,7 +2,7 @@ using System.Net;
 
 namespace UdpRule
 {
-    class Datagram<T>
+    public class Datagram<T>
     {
         public IPEndPoint IpEndPoint { get; private set; }
         
